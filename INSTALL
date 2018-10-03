@@ -1,0 +1,5 @@
+#!/bin/bash
+version=$(grep -o "'.*'" pyfq/__init__.py | sed "s/'//g")
+python3 setup.py bdist_wheel
+sudo pip3 uninstall pyfq
+sudo pip3 install dist/pyfq-${version}-py3-none-any.whl
