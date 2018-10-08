@@ -6,13 +6,9 @@ import sys
 import argparse
 from argparse import RawTextHelpFormatter
 from pyfq.core import catfq
+from pyfq.core import qcfq
 from pyfq import __version__
 from importlib import util
-
-mpl_exists = util.find_spec('matplotlib') is not None
-
-if mpl_exists:
-    from pyfq.core import qcfq
 
 
 def get_args():

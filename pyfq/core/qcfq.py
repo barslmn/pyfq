@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 import os
 
 # Comment out this before building
@@ -8,6 +6,11 @@ import os
 import sys
 sys.path.append(os.path.abspath('..'))
 from utils.fastq import Fastq
+
+mpl_exists = util.find_spec('matplotlib') is not None
+
+if mpl_exists:
+    import matplotlib.pyplot as plt
 
 
 class FastqQualityCheck(Fastq):
