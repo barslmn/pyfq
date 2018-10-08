@@ -1,4 +1,3 @@
-import os
 import sys
 import gzip
 
@@ -10,10 +9,10 @@ class Fastq():
         self.read_fastq()
 
     def __str__(self):
-        return 'Fastq object for {}'.format(os.path.basename(self.fastq_file))
+        return '{} object for {}'.format(self.__class__.__name__, self.fastq_file)
 
     def __repr__(self):
-        return 'Fastq object for {}'.format(os.path.basename(self.fastq_file))
+        return '{} object for {}'.format(self.__class__.__name__, self.fastq_file)
 
     def __len__(self):
         '''Returns number of reads'''
@@ -56,14 +55,14 @@ class Fastq():
             sys.exit()
         self.read_records
 
-    def write_fastq(self, fastq_file):
+    def to_fastq(self, fastq_file):
         with open(fastq_file, 'w') as f:
             for read_record in self:
                 f.write('{}\n{}\n+\n{}\n'.format(
                     read_record[0], read_record[1], read_record[2]))
         pass
 
-    def write_fasta(self, fasta_file):
+    def to_fasta(self, fasta_file):
         with open(fasta_file, 'w') as f:
             for read_record in self:
                 f.write('>{}\n{}\n'.format(
