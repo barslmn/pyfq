@@ -8,7 +8,6 @@ from argparse import RawTextHelpFormatter
 from pyfq.core import catfq
 from pyfq.core import qcfq
 from pyfq import __version__
-from importlib import util
 
 
 def get_args():

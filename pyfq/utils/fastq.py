@@ -4,9 +4,17 @@ import gzip
 
 class Fastq():
 
-    def __init__(self, fastq_file):
+    def __init__(self, fastq_file, mode):
         self.fastq_file = fastq_file
-        self.read_fastq()
+        self.mode = mode
+
+    def __enter__(self):
+        if self.mode == 'r':
+            self.read_fastq()
+            return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        pass
 
     def __str__(self):
         return '{} object for {}'.format(self.__class__.__name__, self.fastq_file)
@@ -45,11 +53,14 @@ class Fastq():
                                     for line in fastq_record]
                     self.read_records[fastq_record[0]] = [
                         fastq_record[1], fastq_record[3]]
+            f.close()
+
         elif self.fastq_file.endswith(('.fastq', '.fq')):
             with open(self.fastq_file, 'r') as f:
                 for fastq_record in self.chunks(f.read().splitlines(), 4):
                     self.read_records[fastq_record[0]] = [
                         fastq_record[1], fastq_record[3]]
+            f.close()
         else:
             sys.stderr.write('Are you sure this is a fastq file??\n')
             sys.exit()
