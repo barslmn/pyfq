@@ -7,7 +7,7 @@ import shutil
 
 
 def main(args):
-    inputdir = args.input
+    input_dir = args.input
     if args.output is not None:
         output_dir = args.output
     else:
@@ -17,9 +17,9 @@ def main(args):
         os.makedirs(output_dir)
 
     fastqncs = [fastq for fastq in os.listdir(
-        inputdir) if fastq.endswith('fastq')]
+        input_dir) if fastq.endswith(('fastq', 'fq'))]
     fastqgzs = [fastq for fastq in os.listdir(
-        inputdir) if fastq.endswith('fastq.gz')]
+        input_dir) if fastq.endswith(('fastq.gz', 'fq.gz'))]
     if len(fastqncs) > len(fastqgzs):
         outputtype = ''
         fastqs = fastqncs
@@ -27,7 +27,7 @@ def main(args):
         outputtype = '.gz'
         fastqs = fastqgzs
 
-    samples = set([fastq.split('_')[0] for fastq in fastqs])
+    samples = set(['_'.join(fastq.split('_')[:2]) for fastq in fastqs])
 
     samplefastqs_f = {sample: [
         fastq for fastq in fastqs if sample in fastq and 'R1' in fastq] for sample in samples}
@@ -36,13 +36,13 @@ def main(args):
         fastq for fastq in fastqs if sample in fastq and 'R2' in fastq] for sample in samples}
 
     for sample, fastqs in samplefastqs_f.items():
-        with open(output_dir + sample + '_S_R1.fastq' + outputtype, 'wb') as wfp:
+        with open(output_dir + sample + '_R1.fastq' + outputtype, 'wb') as wfp:
             for fastq in sorted(fastqs):
                 with open(fastq, 'rb') as rfp:
                     shutil.copyfileobj(rfp, wfp)
 
     for sample, fastqs in samplefastqs_r.items():
-        with open(output_dir + sample + '_S_R2.fastq' + outputtype, 'wb') as wfp:
+        with open(output_dir + sample + '_R2.fastq' + outputtype, 'wb') as wfp:
             for fastq in sorted(fastqs):
                 with open(fastq, 'rb') as rfp:
                     shutil.copyfileobj(rfp, wfp)

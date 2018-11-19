@@ -22,16 +22,11 @@ class FastqQualityCheck(Fastq):
 
     """Docstring for FastqQualityCheck. """
 
-    def __init__(self, fastq_file, output_dir=None):
+    def __init__(self, fastq_file, output_file=None):
         super().__init__(fastq_file)
 
-        if output_dir is not None:
-            self.output_dir = output_dir
-        else:
-            self.output_dir = os.getcwd()
-
-        self.img_dir = os.path.join(
-            self.output_dir, os.path.basename(self.fastq_file).split('.')[0])
+        self.output_file = output_file
+        self.img_dir = os.path.basename(self.output_file).split('.')[0]
 
     def translatephredscores_2_p(self):
         new_fastq = {}
@@ -88,8 +83,8 @@ class FastqQualityCheck(Fastq):
         ax.plot(x, stats.norm.pdf(x, m, s), label='norm pdf')
 
         ax.set_title('GC content per Read')
-        ax.set_xlabel('Reads')
-        ax.set_ylabel('Mean GC content(%)')
+        ax.set_xlabel('Mean GC content(%)')
+        ax.set_ylabel('Reads')
         return fig
 
     def sequence_length_distribution(self):
@@ -108,8 +103,8 @@ class FastqQualityCheck(Fastq):
         ax.plot(x, stats.norm.pdf(x, m, s), label='norm pdf')
 
         ax.set_title('Sequence Length Distribution')
-        ax.set_xlabel('Reads')
-        ax.set_ylabel('Sequence Length')
+        ax.set_xlabel('Sequence Length')
+        ax.set_ylabel('Reads')
         return fig
 
     def create_plots(self):
@@ -134,7 +129,7 @@ class FastqQualityCheck(Fastq):
             os.mkdir(self.img_dir)
 
         self.create_plots()
-        with open('{}.html'.format(self.img_dir), 'w') as f:
+        with open(self.output_file, 'w') as f:
             # Create TOC
             f.write('<html>\n</body>\n<div id="TOC">\n<ul>\n')
             for fig_name in self.figs_dict:
@@ -152,7 +147,7 @@ def main(args):
     my_output_file = args.output
     my_output_format = args.output_format
 
-    my_fqc = FastqQualityCheck(my_fastq_file, my_output)
+    my_fqc = FastqQualityCheck(my_fastq_file, my_output_file)
 
-    if output_format == 'html':
+    if my_output_format == 'html':
         my_fqc.create_html_report()
