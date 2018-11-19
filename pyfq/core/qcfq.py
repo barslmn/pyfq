@@ -26,7 +26,7 @@ class FastqQualityCheck(Fastq):
         super().__init__(fastq_file)
 
         self.output_file = output_file
-        self.img_dir = os.path.basename(self.output_file).split('.')[0]
+        self.img_dir = self.output_file.split('.')[0]
 
     def translatephredscores_2_p(self):
         new_fastq = {}
@@ -112,7 +112,7 @@ class FastqQualityCheck(Fastq):
         self.translatephredscores_2_q()
 
         plot_functions = [self.per_base_sequence_quality,
-                          self.per_sequence_quality_scores,
+                          #self.per_sequence_quality_scores,
                           self.per_sequence_gc_content,
                           self.sequence_length_distribution,
                           ]
