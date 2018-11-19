@@ -4,9 +4,12 @@ import gzip
 
 class Fastq():
 
-    def __init__(self, fastq_file, mode):
+    def __init__(self, fastq_file, mode=None):
         self.fastq_file = fastq_file
-        self.mode = mode
+        if  mode is not None:
+            self.mode = mode
+        else:
+            self.read_fastq()
 
     def __enter__(self):
         if self.mode == 'r':

@@ -39,7 +39,7 @@ def get_args():
         help='Create quality reports for given fastqs',
         epilog='''Usage examples:
         pyfq QC 
-        pyfq QC -i /path/to/fastq -o /path/to/output -f html
+        pyfq QC -i /path/to/fastq -o /path/to/output.html 
         ''')
     parser_qcfq.add_argument('-i', '--input', required=True,
                              default=None, type=str,
@@ -55,7 +55,7 @@ def get_args():
         parser.exit()
 
     args = parser.parse_args()
-    main(args)
+    return args
 
 
 def main():
@@ -63,7 +63,4 @@ def main():
     if args.tool == 'CAT':
         catfq.main(args)
     if args.tool == 'QC':
-        if mpl_exists:
-            qcfq.main(args)
-        else:
-            sys.write.stderr('matplotlib is required.')
+        qcfq.main(args)

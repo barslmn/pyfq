@@ -114,7 +114,7 @@ setup(
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords='genomics next generation sequencing variant discovery clinical genetics',  # Optional
+    keywords='genomics next generation sequencing fastq quality check',  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -142,7 +142,7 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={  # Optional
-        'cat': ['matplotlib'],
+        'qc': ['matplotlib', 'scipy', 'numpy'],
     },
 
     # If there are data files included in your packages that need to be
@@ -151,7 +151,7 @@ setup(
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
     package_data={  # Optional
-        '': ['*.fq'],
+        '': ['*.fq', '*.fq.gz'],
     },
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
